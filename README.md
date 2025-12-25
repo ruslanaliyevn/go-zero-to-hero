@@ -1,11 +1,9 @@
 # Go: Zero to Hero 🦸‍♂️
 
 <p align="center">
-  <img src="https://go.dev/blog/go-brand/Go-Logo/PNG/Go-Logo_Blue.png" alt="Go Logo" width="200"/>
-</p>
-
-<p align="center">
-  <img src="https://go.dev/images/gophers/ladder.svg" alt="Go Gopher" width="300"/>
+  <img src="https://go.dev/blog/go-brand/Go-Logo/PNG/Go-Logo_Blue.png" alt="Go Logo" width="180"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/golang-samples/gopher-vector/master/gopher.png" alt="Go Gopher" width="180"/>
 </p>
 ---
 
