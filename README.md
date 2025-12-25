@@ -5,9 +5,8 @@
 </p>
 
 <p align="center">
-  <i>My journey from knowing nothing about Go to building real DevOps tools</i>
+  <img src="https://go.dev/images/gophers/ladder.svg" alt="Go Gopher" width="300"/>
 </p>
-
 ---
 
 ## 🎯 Why Go?
