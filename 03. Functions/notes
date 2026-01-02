@@ -27,4 +27,39 @@ func calculate(a int, b int) (result int, message string) {
     //     └─ Heç nə yazmırıq! Go avtomatik result və message-i qaytarır
 }
 
+------------------------------------------
+
+🔍 Normal Function vs Function Literal:
+
+
+// ════════════════════════════════════════════════
+// NORMAL FUNCTION (Adi funksiya)
+// ════════════════════════════════════════════════
+func calculateTax(amount float64) float64 {
+    //  └────┬────┘
+    //   Funksiya ADI var
+    return amount * 0.10
+}
+
+func main() {
+    tax := calculateTax(100.0)  // Adı ilə çağırırıq
+}
+
+// ════════════════════════════════════════════════
+// FUNCTION LITERAL (Adsız funksiya)
+// ════════════════════════════════════════════════
+func main() {
+    // Funksiyanı DƏYİŞƏNƏ mənimsədirik
+    calculateTax := func(amount float64) float64 {
+        //             └──────────┬──────────┘
+        //                  ADI YOXDUR!
+        //             Birbaşa dəyişənə yazırıq
+        return amount * 0.10
+    }
+    //  └─ Mötərizə bağlandı, funksiya tamamdır
+    
+    // İndi dəyişən kimi çağırırıq
+    tax := calculateTax(100.0)
+}
+
 
