@@ -26,3 +26,5 @@ func calculate(a int, b int) (result int, message string) {
     return  // ← NAKED RETURN (boş return)
     //     └─ Heç nə yazmırıq! Go avtomatik result və message-i qaytarır
 }
+
+
