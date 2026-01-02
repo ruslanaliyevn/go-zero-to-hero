@@ -1,0 +1,28 @@
+// ════════════════════════════════════════════════
+// NORMAL RETURN (Adi üsul)
+// ════════════════════════════════════════════════
+func calculate(a int, b int) (int, string) {
+    //                        └───┬───┘
+    //                    Tipləri göstəririk, amma ad yoxdur
+    
+    result := a + b
+    message := "Sum calculated"
+    
+    return result, message  // Dəyişənləri açıq şəkildə yazmalıyıq
+    //     └──────┬──────┘
+    //       Hər dəyişəni göstərməliyik
+}
+
+// ════════════════════════════════════════════════
+// NAMED RETURN (Adlandırılmış return)
+// ════════════════════════════════════════════════
+func calculate(a int, b int) (result int, message string) {
+    //                        └──────────┬──────────┘
+    //                  Return dəyərlərinin adları var
+    
+    result = a + b                    // Adlandırılmış dəyişənə dəyər veririk
+    message = "Sum calculated"        // Adlandırılmış dəyişənə dəyər veririk
+    
+    return  // ← NAKED RETURN (boş return)
+    //     └─ Heç nə yazmırıq! Go avtomatik result və message-i qaytarır
+}
