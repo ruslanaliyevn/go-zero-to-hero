@@ -1,13 +1,25 @@
-# 02. Variables in Go 📦
+# Go Variables 📦
 
 Understanding how to store and manage data in Go programs.
 
 ---
 
-## 📝 The Problem - Code Repetition
+## Table of Contents
 
-Let's start with a common mistake:
+1. [The Problem - Code Repetition](#the-problem---code-repetition)
+2. [Variable Declaration Methods](#variable-declaration-methods)
+3. [Type System](#type-system)
+4. [Multiple Files Organization](#multiple-files-organization)
+5. [Constants](#constants)
+6. [String Formatting](#string-formatting)
+7. [Important Concepts](#important-concepts)
+8. [Best Practices](#best-practices)
 
+---
+
+## The Problem - Code Repetition
+
+### Without Variables
 ```go
 package main
 
@@ -20,19 +32,9 @@ func main() {
 }
 ```
 
-**Output:**
-```
-Medium Espresso price is 2.50
-Medium Espresso price is 2.50
-Medium Espresso price is 2.50
-```
+**Problem:** What if the price changes? You'd have to update it in three places!
 
-**Problem:** What if the price changes? You'd have to update it in three places! That's inefficient and error-prone.
-
----
-
-## ✅ The Solution - Using Variables
-
+### With Variables
 ```go
 package main
 
@@ -46,21 +48,71 @@ func main() {
 }
 ```
 
-**Output:**
-```
-Medium Espresso price is 2.50
-Medium Espresso price is 2.50
-Medium Espresso price is 2.50
-```
-
-**Advantage:** Change the value once, and it updates everywhere! This is the power of variables.
+**Advantage:** Change the value once, and it updates everywhere!
 
 ---
 
-## 🔄 Variable Reassignment
+## Variable Declaration Methods
+
+### Three Ways to Declare
+
+Go gives you three options for declaring variables:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Method 1: Explicit type declaration
+    var coffeeName string = "Espresso"
+    
+    // Method 2: Type inference with var
+    var size = "Small"
+    
+    // Method 3: Short declaration (only inside functions!)
+    price := 2.50
+    
+    fmt.Println(size, coffeeName, "price is $", price)
+}
+```
+
+**Output:**
+```
+Small Espresso price is $ 2.50
+```
+
+### Declaration Methods Comparison
+
+| Method | Syntax | Type Declaration | Where Can Use | Best For |
+|--------|--------|------------------|---------------|----------|
+| **Explicit var** | `var name type = value` | Required | Anywhere | When type clarity is important |
+| **Inferred var** | `var name = value` | Auto-detected | Anywhere | Package-level variables |
+| **Short declaration** | `name := value` | Auto-detected | **Functions only** | Quick, clean code inside functions |
+
+### Critical Rule: `:=` Location
+
+The `:=` short declaration can **ONLY** be used inside functions!
+```go
+// ❌ This doesn't work at package level
+package main
+price := 2.50  // ERROR!
+
+// ✅ This works
+package main
+var price = 2.50  // Correct!
+
+func main() {
+    discount := 0.10  // ✅ Short declaration works here!
+}
+```
+
+---
+
+## Type System
+
+### Variable Reassignment
 
 Variables can change their values during program execution:
-
 ```go
 package main
 
@@ -85,21 +137,18 @@ Large Espresso price is $4.0
 
 **Key Point:** You can reassign variables to new values of the **same type**.
 
----
-
-## 🚫 Type Safety in Go
+### Type Safety in Go
 
 Go is **statically typed** - once a variable's type is determined, it stays that way forever!
 
-### What This Means
-
+#### What This Means
 ```go
 var info = "text"       // ✅ Go infers: info is a string
 info = "new text"       // ✅ Correct - still a string
 info = 10               // ❌ ERROR! Cannot change string to int
 ```
 
-### Why Does This Happen?
+#### Why Does This Happen?
 
 When you write `var info = "text"`:
 1. Go sees the value is text (in quotes)
@@ -107,8 +156,7 @@ When you write `var info = "text"`:
 3. From now on, `info` can ONLY hold strings
 4. You cannot change its type to int, float, or anything else
 
-### More Examples
-
+#### More Examples
 ```go
 var age = 25           // Go infers: int
 age = 30               // ✅ Works - both are integers
@@ -123,7 +171,7 @@ price = 10             // ⚠️ Be careful! This might work but can cause issue
 
 ---
 
-## 🗂️ Working with Multiple Files
+## Multiple Files Organization
 
 ### The Problem - Duplicate `main()` Functions
 
@@ -160,10 +208,9 @@ go run *.go
 - When files are in the same directory, they belong to the same package
 - Two `main()` functions = Conflict! Go doesn't know which one to run
 
-### ✅ Solution: Separate Directories
+### Solution: Separate Directories
 
 Create a folder for each program:
-
 ```
 02. Variables/
 ├── 01_basic_declaration/
@@ -187,66 +234,80 @@ go run 02_multiple_vars/02_multiple_vars.go
 
 ---
 
-## 🎯 Three Ways to Declare Variables
+## Constants
 
-Go gives you three options for declaring variables, each with its own use case:
+### What Are Constants?
 
+Values that **never change** during program execution.
+
+### Basic Constants
 ```go
-package main
+const shopName = "Brew & Beans"
+const maxCustomers = 50
+const taxRate = 0.10
 
-import "fmt"
-
-func main() {
-    // Method 1: Explicit type declaration
-    var coffeeName string = "Espresso"
-    
-    // Method 2: Type inference with var
-    var size = "Small"
-    
-    // Method 3: Short declaration (only inside functions!)
-    price := 2.50
-    
-    fmt.Println(size, coffeeName, "price is $", price)
-}
+// shopName = "New Name"  // ❌ ERROR - can't change const
 ```
 
-**Output:**
-```
-Small Espresso price is $ 2.50
-```
-
-### Declaration Methods Comparison
-
-| Method | Syntax | Type Declaration | Where Can Use | Best For |
-|--------|--------|------------------|---------------|----------|
-| **Explicit var** | `var name type = value` | Required | Anywhere | When type clarity is important |
-| **Inferred var** | `var name = value` | Auto-detected | Anywhere | Package-level variables |
-| **Short declaration** | `name := value` | Auto-detected | **Functions only** | Quick, clean code inside functions |
-
-### 🔑 Critical Rule
-
-The `:=` short declaration can **ONLY** be used inside functions!
-
+### Constants vs Variables
 ```go
-// ❌ This doesn't work at package level
-package main
-price := 2.50  // ERROR!
+// Variable - can change
+var currentPrice = 4.50
+currentPrice = 5.00  // ✅ OK
 
-// ✅ This works
-package main
-var price = 2.50  // Correct!
+// Constant - cannot change
+const basePrice = 4.50
+// basePrice = 5.00  // ❌ ERROR - constants are immutable
+```
 
-func main() {
-    discount := 0.10  // ✅ Short declaration works here!
-}
+### Unused Variables vs Unused Constants
+```go
+// ❌ Unused variable causes ERROR
+var unusedVar = "Hello"
+// Error: unusedVar declared and not used
+
+// ✅ Unused constant is OK
+const unusedConst = "World"
+// No error! Constants can be declared but not used
+```
+
+### Grouped Declarations
+
+You can group related constants together:
+```go
+const (
+    sizeSmall  = "S"
+    sizeMedium = "M"
+    sizeLarge  = "L"
+)
+```
+
+### Type Adaptation
+
+**Untyped constants** automatically adapt to the context:
+```go
+const rewardPoints = 10  // Untyped constant
+
+var totalFloat float64 = 150.3
+totalFloat = totalFloat + rewardPoints  // ✅ Works! 10 becomes 10.0
+
+var totalInt int = 100
+totalInt = totalInt + rewardPoints  // ✅ Works! 10 stays int
+```
+
+**Typed constants** don't adapt:
+```go
+const rewardPoints int = 10  // Explicitly typed as int
+
+var totalFloat float64 = 150.3
+totalFloat = totalFloat + rewardPoints  // ❌ ERROR - type mismatch
 ```
 
 ---
 
-## 🎨 String Formatting
+## String Formatting
 
 ### Basic Printing
-
 ```go
 package main
 
@@ -269,7 +330,6 @@ Small Espresso price is $ 2.5
 **Problem:** Notice the spacing? `Println` adds spaces between arguments, and the price shows as `2.5` instead of `2.50`.
 
 ### Formatted Printing (Better!)
-
 ```go
 package main
 
@@ -299,11 +359,7 @@ Done
 
 **Much better!** The second line is properly formatted with exactly 2 decimal places.
 
----
-
-## 📐 Printf Format Specifiers
-
-When using `Printf`, you use special codes to format your output:
+### Printf Format Specifiers
 
 | Specifier | Type | Description | Example Output |
 |-----------|------|-------------|----------------|
@@ -311,8 +367,8 @@ When using `Printf`, you use special codes to format your output:
 | `%d` | int | Whole number | `42` |
 | `%f` | float | Decimal number | `2.500000` |
 | `%.2f` | float | Decimal with 2 places | `2.50` |
-| `%v` | any | Default format (works for any type) | Varies |
-| `%T` | any | Shows the type | `string`, `int`, etc. |
+| `%v` | any | Default format | Varies |
+| `%T` | any | Shows the type | `string`, `int` |
 | `\n` | - | New line | Line break |
 
 ### Printf vs Println
@@ -329,12 +385,11 @@ When using `Printf`, you use special codes to format your output:
 
 ---
 
-## 💡 Important Concepts
+## Important Concepts
 
 ### 1. Zero Values
 
 Variables declared without initialization get **default values**:
-
 ```go
 var name string    // "" (empty string)
 var age int        // 0
@@ -345,7 +400,6 @@ var isActive bool  // false
 ### 2. Unused Variables = Error
 
 Go is strict about unused variables:
-
 ```go
 func main() {
     var unused = "test"  // ❌ Error: declared but not used
@@ -357,7 +411,6 @@ func main() {
 ### 3. Multiple Declarations
 
 You can declare multiple variables at once:
-
 ```go
 // Same type
 var x, y, z int = 1, 2, 3
@@ -391,7 +444,7 @@ a, b, c := 1, "two", 3.0
 
 ---
 
-## 🎯 Best Practices
+## Best Practices
 
 1. **Use `:=` inside functions** - It's cleaner and idiomatic Go
 2. **Use `var` at package level** - No choice here, `:=` doesn't work there
@@ -400,45 +453,18 @@ a, b, c := 1, "two", 3.0
 5. **One `main()` per directory** - Organize files properly
 6. **Always use declared variables** - Go won't compile otherwise
 7. **Keep names meaningful** - Your future self will thank you
+8. **Use constants for values that never change** - Makes code safer and clearer
 
 ---
 
-## 🧠 What I Learned
-
-### Variable Basics
-- ✅ Variables store data for reuse
-- ✅ Variables can be reassigned (same type only)
-- ✅ Go automatically infers types when not specified
-- ✅ Unused variables cause compilation errors
-
-### Declaration Methods
-- ✅ `var name type = value` - Explicit and clear
-- ✅ `var name = value` - Let Go figure out the type
-- ✅ `name := value` - Quick shorthand (functions only!)
-
-### Type System
-- ✅ Go is statically typed (types can't change)
-- ✅ Type inference saves typing but keeps safety
-- ✅ Zero values prevent uninitialized variables
-
-### Formatting Output
-- ✅ `Println()` for simple output
-- ✅ `Printf()` for controlled formatting
-- ✅ Format specifiers give precise control
-
-### Project Organization
-- ✅ One `main()` function per package
-- ✅ Separate directories for separate programs
-- ✅ Proper structure prevents conflicts
-
----
-
-## 🎯 Summary
+## Summary
 
 ### What Are Variables?
+
 Variables are containers that store information in your program. Instead of writing the same value multiple times, you store it once and reuse it everywhere.
 
 ### Why Use Variables?
+
 ✅ **Reusability** - Write once, use many times  
 ✅ **Flexibility** - Change the value in one place, updates everywhere  
 ✅ **Readability** - `price` is clearer than `2.50` scattered in code  
@@ -452,15 +478,25 @@ name := "Coffee"            // 3. Short form (only in functions!)
 ```
 
 ### Golden Rules
+
 1. **Type is fixed** - Once a variable is a string, it stays a string
 2. **Use it or lose it** - Unused variables cause errors
 3. **`:=` only in functions** - Outside functions, use `var`
 4. **One `main()` per package** - Separate programs into different folders
+5. **Constants never change** - Use for fixed values
+6. **Unused constants are OK** - Unlike variables
 
 ### Format Your Output
+
 - `Println()` for quick, simple printing
 - `Printf()` for precise control and formatting
 
 ---
 
-*Variables transform hardcoded chaos into organized, maintainable code!* 📦✨
+*Variables and constants transform hardcoded chaos into organized, maintainable code!* 📦✨
+
+---
+
+## License
+
+Personal learning repository.
