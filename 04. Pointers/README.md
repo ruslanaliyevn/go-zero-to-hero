@@ -1,73 +1,78 @@
-# Pointers in Go
-
-## What is a Pointer?
-
-A **pointer** is a variable that stores the **memory address** of another variable, not the value itself.
+# Go Learning Notes
 
 ---
 
-## Key Operator: `&` (Address-of)
+## Pointers
 
-| Operator | Name | Description | Example |
-|----------|------|-------------|---------|
-| `&` | Address-of | Gets the memory address of a variable | `&coffee` |
+### What is a Pointer?
+
+A **pointer** stores the **memory address** of a variable, not the value itself.
 
 ---
 
-## Basic Usage
+### `&` Operator - Get Address
 ```go
-// Create a variable
 coffee := "Espresso"
-
-// Get its memory address using &
 pointer := &coffee
 
-// Display value
-fmt.Println(coffee)    // "Espresso" (the value)
-
-// Display address
-fmt.Println(pointer)         // 0xc000010230 (memory address)
-fmt.Printf("%p\n", pointer)  // 0xc000010230 (formatted address)
+fmt.Println(coffee)   // "Espresso"
+fmt.Println(pointer)  // 0xc000010230
 ```
 
 ---
 
-## Copy vs Pointer
-
-### Copy - Creates NEW memory location
+### Copy vs Pointer
 ```go
+// Copy - different addresses
 coffee := "Espresso"
-coffeeCopy := coffee  // Creates a copy at different address
-
-fmt.Printf("%p\n", &coffee)      // 0xc000010230
-fmt.Printf("%p\n", &coffeeCopy)  // 0xc000010250 (DIFFERENT!)
-```
-
-### Pointer - References SAME memory location
-```go
-coffee := "Espresso"
-pointer := &coffee  // Points to coffee's address
+copy := coffee
 
 fmt.Printf("%p\n", &coffee)  // 0xc000010230
-fmt.Printf("%p\n", pointer)  // 0xc000010230 (SAME!)
+fmt.Printf("%p\n", &copy)    // 0xc000010250 (DIFFERENT)
+
+// Pointer - same address
+pointer := &coffee
+fmt.Printf("%p\n", pointer)  // 0xc000010230 (SAME)
 ```
 
 ---
 
-## Memory Visualization
-```
-Memory Address    Value         Variable
-──────────────    ─────────     ────────
-0xc000010230  →  "Espresso"    coffee
-0xc000010240  →  0xc000010230  pointer (stores address)
-0xc000010250  →  "Espresso"    coffeeCopy (different location)
+### `*` Operator - Dereference (Change Value)
+```go
+price := 4.50
+
+// Create pointer
+var ptr *float64 = &price
+
+// Change value through pointer
+*ptr = 7.50
+
+fmt.Println(price)  // 7.50 (changed!)
 ```
 
 ---
 
-## Key Takeaways
+### How It Works
+```
+Memory: 0xc00000a088
+Value:  4.50 → 7.50
 
-✅ Every variable has a memory address  
-✅ `&variable` gives you the address  
-✅ **Copy** = new variable, new address, independent  
-✅ **Pointer** = stores address, references same location
+price  ← original variable
+*ptr   ← changes through pointer (same memory)
+```
+
+---
+
+### Key Points
+
+| Operator | Meaning |
+|----------|---------|
+| `&` | Get address |
+| `*` (in type) | Pointer type |
+| `*` (in code) | Access/change value |
+
+✅ `&variable` → get address  
+✅ `*pointer` → change value at address  
+✅ Same memory = same variable
+
+---
