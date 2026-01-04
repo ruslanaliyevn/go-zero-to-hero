@@ -52,27 +52,67 @@ fmt.Println(price)  // 7.50 (changed!)
 
 ---
 
-### How It Works
-```
-Memory: 0xc00000a088
-Value:  4.50 → 7.50
+### Functions: With vs Without Pointers
 
-price  ← original variable
-*ptr   ← changes through pointer (same memory)
+#### WITHOUT Pointer - Returns New Value
+```go
+func calculateDiscount(price float64, rate float64) float64 {
+    return price - (price * rate)
+}
+
+// Usage:
+coffeePrice := 5.00
+coffeePrice = calculateDiscount(coffeePrice, 0.10)  // Must capture return
+fmt.Println(coffeePrice)  // 4.50
 ```
+
+**How it works:**
+- Function receives a **copy** of the value
+- Original variable **unchanged**
+- Must **return** new value
+- Must **capture** the returned value
+
+#### WITH Pointer - Modifies Original
+```go
+func applyDiscount(price *float64, rate float64) {
+    *price = *price - (*price * rate)
+}
+
+// Usage:
+coffeePrice := 5.00
+applyDiscount(&coffeePrice, 0.10)  // Original modified directly
+fmt.Println(coffeePrice)  // 4.50
+```
+
+**How it works:**
+- Function receives **memory address**
+- Original variable **modified directly**
+- No return needed
+- No need to capture result
+
+---
+
+### Comparison
+
+| Feature | WITHOUT Pointer | WITH Pointer |
+|---------|----------------|--------------|
+| Parameter | Value (copy) | Address (`*float64`) |
+| Original variable | Unchanged | Changed |
+| Return value | Required | Not needed |
+| Usage | `func(value)` | `func(&value)` |
+| When to use | Need new value | Modify original |
 
 ---
 
 ### Key Points
 
-| Operator | Meaning |
-|----------|---------|
-| `&` | Get address |
-| `*` (in type) | Pointer type |
-| `*` (in code) | Access/change value |
-
 ✅ `&variable` → get address  
-✅ `*pointer` → change value at address  
-✅ Same memory = same variable
+✅ `*pointer` → access/modify value  
+✅ **Without pointer**: copy, return, capture  
+✅ **With pointer**: address, modify, no return
 
 ---
+
+## License
+
+Personal learning repository.
