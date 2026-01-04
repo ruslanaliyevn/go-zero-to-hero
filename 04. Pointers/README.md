@@ -66,12 +66,6 @@ coffeePrice = calculateDiscount(coffeePrice, 0.10)  // Must capture return
 fmt.Println(coffeePrice)  // 4.50
 ```
 
-**How it works:**
-- Function receives a **copy** of the value
-- Original variable **unchanged**
-- Must **return** new value
-- Must **capture** the returned value
-
 #### WITH Pointer - Modifies Original
 ```go
 func applyDiscount(price *float64, rate float64) {
@@ -84,23 +78,51 @@ applyDiscount(&coffeePrice, 0.10)  // Original modified directly
 fmt.Println(coffeePrice)  // 4.50
 ```
 
-**How it works:**
-- Function receives **memory address**
-- Original variable **modified directly**
-- No return needed
-- No need to capture result
-
 ---
 
-### Comparison
+### DevOps Use Case: Server Configuration Management
 
-| Feature | WITHOUT Pointer | WITH Pointer |
-|---------|----------------|--------------|
-| Parameter | Value (copy) | Address (`*float64`) |
-| Original variable | Unchanged | Changed |
-| Return value | Required | Not needed |
-| Usage | `func(value)` | `func(&value)` |
-| When to use | Need new value | Modify original |
+**Why Pointers Matter in DevOps:**
+
+In real DevOps scenarios, you often need to modify configurations directly without creating copies. This is more efficient for:
+- Managing multiple servers
+- Updating configurations in real-time
+- Reducing memory usage
+- Improving performance
+
+**Example: Server Scaling**
+```go
+type ServerConfig struct {
+    Name     string
+    CPUCores int
+    MemoryGB int
+    DiskGB   int
+}
+
+// Upgrade server using pointer - modifies original
+func upgradeServer(config *ServerConfig, newCPU int, newRAM int) {
+    config.CPUCores = newCPU
+    config.MemoryGB = newRAM
+}
+
+// Usage:
+prodServer := ServerConfig{
+    Name:     "production-api",
+    CPUCores: 4,
+    MemoryGB: 8,
+    DiskGB:   200,
+}
+
+// Scale up when traffic increases
+upgradeServer(&prodServer, 8, 16)   // Directly modifies prodServer
+upgradeServer(&prodServer, 16, 32)  // Scale again if needed
+```
+
+**Benefits:**
+- ✅ No need to return and capture values
+- ✅ Direct modification of server config
+- ✅ Efficient for managing multiple servers
+- ✅ Cleaner code in production scenarios
 
 ---
 
@@ -109,7 +131,8 @@ fmt.Println(coffeePrice)  // 4.50
 ✅ `&variable` → get address  
 ✅ `*pointer` → access/modify value  
 ✅ **Without pointer**: copy, return, capture  
-✅ **With pointer**: address, modify, no return
+✅ **With pointer**: address, modify, no return  
+✅ **DevOps**: pointers for efficient config management
 
 ---
 
