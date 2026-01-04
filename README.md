@@ -24,6 +24,9 @@ Each topic gets its own repository with explanations and working examples.
 - [Official Go Docs](https://go.dev/doc/)
 - [A Tour of Go](https://go.dev/tour/)
 - [Go by Example](https://gobyexample.com/)
+- [Roadmap Go](https://roadmap.sh/golang/)
+- [Hackerrank Go](https://www.hackerrank.com/skills-directory/golang_basic/)
+
 
 ---
 
