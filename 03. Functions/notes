@@ -62,4 +62,9 @@ func main() {
     tax := calculateTax(100.0)
 }
  
+-----
+ Closures in Function - 08_closures.go
+
+Closure = Funksiya öz xüsusi yaddaşına malik olur və xarici dəyişənləri "saxlayır".
+Bu nümunədə, adjustTemperature funksiyası baseTemperature dəyişənini "ələ keçirib" və hər dəfə çağırıldıqda onu dəyişdirir. Bu dəyişən funksiya bitdikdən sonra da yaşayır - bu closure-un xüsusiyyətidir.
 
